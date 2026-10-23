@@ -11,14 +11,14 @@ The schemes follow the two-level TENO reconstruction of Fu, Hu and Adams (2016),
 
 ## Status
 
-The schemes as shipped measure second order on smooth linear advection, not the fifth and sixth order of the reference formulation. In smooth regions the reconstruction reduces to central differencing, which keeps pressure-velocity coupling stable but caps the achievable order. Work toward the full design order is in progress.
+The schemes as shipped are upwind-biased and second order. In smooth regions they reconstruct from the upwind cell with a least-squares gradient, and near steep gradients they use only the upwind stencil, bounded by the neighbouring cell values. On smooth linear advection they measure about second order, not the fifth and sixth order of the reference formulation. Work toward the full design order is in progress.
 
-| Scheme | Measured order (L2, N = 80 to 160) |
+| Scheme | Measured order (L1, N = 80 to 160) |
 |---|---|
 | linear (CD2) | 2.02 |
 | linearUpwind | 1.81 |
-| TENO5 | 2.03 |
-| TENO6 | 2.03 |
+| TENO5 | 1.91 |
+| TENO6 | 1.96 |
 
 The numbers come from the advection order test in the validation folder and are reproducible with:
 

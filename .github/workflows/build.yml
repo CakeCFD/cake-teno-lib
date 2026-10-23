@@ -1,0 +1,41 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ ubuntu-24.04, ubuntu-24.04-arm ]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install OpenFOAM v2412
+        run: |
+          curl -fsSL https://dl.openfoam.com/add-debian-repo.sh | sudo bash
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends openfoam2412-dev
+
+      - name: Build library
+        shell: bash
+        run: |
+          source /usr/lib/openfoam/openfoam2412/etc/bashrc || true
+          wmake libso src
+          test -f "$FOAM_USER_LIBBIN/libtenoScheme.so"
+
+      - name: Run cavity example
+        shell: bash
+        run: |
+          source /usr/lib/openfoam/openfoam2412/etc/bashrc || true
+          cd examples/cavity
+          blockMesh > log.blockMesh
+          icoFoam > log.icoFoam
+          tail -n 5 log.icoFoam
+          grep -q '^End' log.icoFoam

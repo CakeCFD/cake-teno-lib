@@ -1,0 +1,33 @@
+cff-version: 1.2.0
+message: "If you use these schemes in your work, please cite them as below."
+title: "cake-teno-lib"
+type: software
+authors:
+  - name: "CakeCFD Contributors"
+version: 0.1.0
+date-released: 2026-10-23
+license: GPL-3.0-or-later
+repository-code: "https://github.com/CakeCFD/cake-teno-lib"
+url: "https://cakecfd.org/"
+abstract: "TENO5 and TENO6 convection schemes for OpenFOAM v2412 on unstructured meshes."
+keywords:
+  - CFD
+  - OpenFOAM
+  - TENO
+  - numerical schemes
+references:
+  - type: article
+    authors:
+      - family-names: Fu
+        given-names: Lin
+      - family-names: Hu
+        given-names: Xiangyu Y.
+      - family-names: Adams
+        given-names: Nikolaus A.
+    title: "A family of high-order targeted ENO schemes for compressible-fluid simulations"
+    journal: "Journal of Computational Physics"
+    volume: 305
+    start: 333
+    end: 359
+    year: 2016
+    doi: "10.1016/j.jcp.2015.10.037"

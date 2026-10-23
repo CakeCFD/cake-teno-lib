@@ -1,0 +1,49 @@
+name: Release
+
+on:
+  push:
+    tags: [ "v*" ]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing tag to build and attach assets to, for example v0.1.0
+        required: true
+
+permissions:
+  contents: write
+
+env:
+  TAG: ${{ inputs.tag || github.ref_name }}
+
+jobs:
+  library:
+    strategy:
+      matrix:
+        runner: [ ubuntu-24.04, ubuntu-24.04-arm ]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.TAG }}
+
+      - name: Install OpenFOAM v2412
+        run: |
+          curl -fsSL https://dl.openfoam.com/add-debian-repo.sh | sudo bash
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends openfoam2412-dev
+
+      - name: Build library
+        shell: bash
+        run: |
+          source /usr/lib/openfoam/openfoam2412/etc/bashrc || true
+          wmake libso src
+          mkdir -p dist
+          cp "$FOAM_USER_LIBBIN/libtenoScheme.so" "dist/libtenoScheme-v2412-$(uname -m).so"
+
+      - name: Attach to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "$TAG" >/dev/null 2>&1 || gh release create "$TAG" --title "cake-teno-lib $TAG" --notes "" || true
+          gh release upload "$TAG" dist/*.so --clobber

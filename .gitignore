@@ -1,0 +1,9 @@
+lnInclude/
+Make/linux*/
+src/Make/linux*/
+examples/*/constant/polyMesh/
+examples/*/[0-9]*/
+!examples/*/0/
+examples/*/log.*
+validation/cases/*/work/
+__pycache__/

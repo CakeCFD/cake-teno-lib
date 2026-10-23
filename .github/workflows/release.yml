@@ -21,17 +21,32 @@ jobs:
       matrix:
         runner: [ ubuntu-24.04, ubuntu-24.04-arm ]
     runs-on: ${{ matrix.runner }}
-    timeout-minutes: 30
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ env.TAG }}
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/of-debs
+          key: openfoam2412-debs-${{ runner.arch }}-v1
+
+      - name: Restore OpenFOAM packages
+        run: |
+          echo 'APT::Keep-Downloaded-Packages "true";' | sudo tee /etc/apt/apt.conf.d/99keep-debs
+          sudo rm -f /etc/apt/apt.conf.d/docker-clean
+          mkdir -p ~/of-debs
+          sudo cp ~/of-debs/*.deb /var/cache/apt/archives/ 2>/dev/null || true
 
       - name: Install OpenFOAM v2412
         run: |
           curl -fsSL https://dl.openfoam.com/add-debian-repo.sh | sudo bash
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends openfoam2412-dev
+
+      - name: Save OpenFOAM packages
+        run: cp /var/cache/apt/archives/openfoam2412*.deb ~/of-debs/
 
       - name: Build library
         shell: bash

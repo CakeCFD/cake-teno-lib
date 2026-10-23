@@ -3,7 +3,8 @@ message: "If you use these schemes in your work, please cite them as below."
 title: "cake-teno-lib"
 type: software
 authors:
-  - name: "CakeCFD Contributors"
+  - given-names: "Ayush"
+    family-names: "Sreejith"
 version: 0.1.2
 date-released: 2026-10-23
 license: GPL-3.0-or-later

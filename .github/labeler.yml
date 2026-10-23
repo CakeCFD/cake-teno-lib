@@ -1,0 +1,26 @@
+A-schemes:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/**'
+
+A-examples:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'examples/**'
+
+A-validation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'validation/**'
+
+A-ci:
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+
+A-docs:
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'README.md'
+          - 'CONTRIBUTING.md'
+          - 'CITATION.cff'

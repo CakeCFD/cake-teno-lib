@@ -1,6 +1,6 @@
 # cake-teno-lib
 
-TENO (Targeted Essentially Non-Oscillatory) convection schemes for OpenFOAM v2412, packaged as a drop-in library. It adds two schemes that stock OpenFOAM does not ship:
+TENO (Targeted Essentially Non-Oscillatory) convection schemes for OpenFOAM v2412, packaged as a drop-in library. It adds two schemes that stock OpenFOAM does not ship.
 
 | Scheme | Name in fvSchemes | Stencils |
 |---|---|---|
